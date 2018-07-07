@@ -3,8 +3,9 @@ var gulp = require('gulp'),
     imagemin = require('gulp-imagemin');
 
 gulp.task('copy', ['clean'], function () {
-    gulp.src('src/**/*')
+    var stream = gulp.src('src/**/*')
         .pipe(gulp.dest('dist'))
+    return stream;
 });
 
 gulp.task('clean', function () {
@@ -13,7 +14,7 @@ gulp.task('clean', function () {
     return stream;
 });
 
-gulp.task('build-img', function () {
+gulp.task('build-img', ['copy'], function () {
     gulp.src('src/img/**/*')
         .pipe(imagemin())
         .pipe(gulp.dest('dist/img'))
