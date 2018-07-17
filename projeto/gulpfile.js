@@ -3,6 +3,7 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     usemin = require('gulp-usemin'),
     cssmin = require('gulp-cssmin'),
+    browserSync = require('browser-sync'),
     imagemin = require('gulp-imagemin');
 
 gulp.task('copy', ['clean'], function () {
@@ -34,4 +35,16 @@ gulp.task('usemin', function () {
 
 gulp.task('default', ['copy'], function () {
     gulp.start('build-img', 'usemin', );
+});
+
+
+
+gulp.task('server', function () {
+    browserSync.init({
+        server: {
+            baseDir: 'src'
+        }
+    });
+
+    gulp.watch('src/**/*').on('change', browserSync.reload);
 });
