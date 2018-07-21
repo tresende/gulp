@@ -7,6 +7,7 @@ var gulp = require('gulp')
     , jshint = require('gulp-jshint')
     , imagemin = require('gulp-imagemin')
     , csslint = require('gulp-csslint')
+    , autoprefixer = require('gulp-autoprefixer')
     , jshintStylish = require('jshint-stylish');
 
 gulp.task('copy', ['clean'], function () {
@@ -31,7 +32,7 @@ gulp.task('usemin', function () {
     var stream = gulp.src('dist/**/*.html')
         .pipe(usemin({
             'js': [uglify],
-            'css': [cssmin]
+            'css': [autoprefixer, cssmin]
         }))
         .pipe(gulp.dest('dist'))
 });
