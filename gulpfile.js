@@ -8,6 +8,7 @@ var gulp = require('gulp')
     , imagemin = require('gulp-imagemin')
     , csslint = require('gulp-csslint')
     , autoprefixer = require('gulp-autoprefixer')
+    , less = require('gulp-less')
     , jshintStylish = require('jshint-stylish');
 
 gulp.task('copy', ['clean'], function () {
@@ -61,6 +62,23 @@ gulp.task('server', function () {
         gulp.src(event.path)
             .pipe(csslint())
             .pipe(csslint.reporter());
+    });
+
+    // novidade para lint de css
+    gulp.watch('src/less/**/*.less').on('change', function (event) {
+        gulp.src(event.path)
+            .pipe(less())
+            .pipe(gulp.dest('src/css'))
+    });
+
+
+    gulp.watch('src/less/**/*.less').on('change', function (event) {
+        var stream = gulp.src(event.path)
+            .pipe(less().on('error', function (erro) {
+                console.log('LESS, erro compilação: ' + erro.filename);
+                console.log(erro.message);
+            }))
+            .pipe(gulp.dest('src/css'));
     });
 
     gulp.watch('src/**/*').on('change', browserSync.reload);
